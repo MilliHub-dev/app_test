@@ -316,7 +316,7 @@ const TestForm: React.FC = () => {
                       ...prev,
                       testerInfo: { ...prev.testerInfo, role: e.target.value as any }
                     }))}
-                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white form-input focus:outline-none"
+                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-black form-input focus:outline-none"
                   >
                     <option value="QA">QA</option>
                     <option value="Developer">Developer</option>
@@ -406,7 +406,7 @@ const TestForm: React.FC = () => {
                         ...prev, 
                         priority: e.target.value as any 
                       }))}
-                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white form-input focus:outline-none"
+                      className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-black form-input focus:outline-none"
                     >
                       <option value="Critical">Critical</option>
                       <option value="High">High</option>

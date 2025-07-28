@@ -19,6 +19,7 @@ const Navbar: React.FC = () => {
     <nav className="glass-effect sticky top-0 z-50 border-b border-white/20">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
+
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -26,10 +27,15 @@ const Navbar: React.FC = () => {
             className="flex items-center space-x-3"
           >
             <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg">
-              <Car className="w-6 h-6 text-white" />
+              <img
+                src="/logo192.png"
+                alt="Sabi Ride Logo"
+                className="w-12 h-12 object-contain mr-1"
+              />
+              
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">Sabi-Ride</h1>
+              <h1 className="text-xl font-bold text-white">Sabi Ride</h1>
               <p className="text-xs text-white/70">QA Testing Platform</p>
             </div>
           </motion.div>
