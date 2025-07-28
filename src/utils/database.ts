@@ -1,67 +1,129 @@
 // Database utility functions for Neon PostgreSQL integration
-// Note: In a real application, these would be server-side functions
+import axios from 'axios';
 
 export interface DatabaseConfig {
   connectionString: string;
 }
 
-// Mock database functions for demonstration
-// In production, these would be actual API calls to your backend
+// Backend API URL
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+// Initialize database tables (handled by backend)
 export const initDatabase = async () => {
-  // Initialize database tables if they don't exist
-  console.log('Database initialized (localStorage for demo)');
+  try {
+    console.log('Database initialization handled by backend server');
+    return { success: true };
+  } catch (error) {
+    console.error('Error initializing database:', error);
+    return { success: false, error };
+  }
 };
 
 export const saveSubmission = async (submission: any) => {
   try {
-    // In production, this would be an API call to your Neon database
-    const existingData = localStorage.getItem('qa-submissions');
-    const submissions = existingData ? JSON.parse(existingData) : [];
+    console.log('Saving submission to Neon database via backend...', submission);
     
-    submissions.push({
-      ...submission,
-      id: Date.now().toString(),
-      submittedAt: new Date().toISOString()
+    const response = await axios.post(`${API_BASE_URL}/submissions`, submission, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 30000, // 30 second timeout
     });
     
-    localStorage.setItem('qa-submissions', JSON.stringify(submissions));
-    return { success: true, id: submissions[submissions.length - 1].id };
-  } catch (error) {
-    console.error('Error saving submission:', error);
-    return { success: false, error };
+    if (response.data.success) {
+      console.log('✅ Submission saved successfully to Neon database');
+      return { 
+        success: true, 
+        id: response.data.submissionId,
+        message: response.data.message 
+      };
+    } else {
+      throw new Error(response.data.error || 'Failed to save submission');
+    }
+  } catch (error: any) {
+    console.error('❌ Error saving submission to database:', error);
+    
+    // Return user-friendly error message
+    const errorMessage = error.response?.data?.error || 
+                        error.message || 
+                        'Failed to save submission to database';
+    
+    return { 
+      success: false, 
+      error: errorMessage 
+    };
   }
 };
 
 export const getSubmissions = async () => {
   try {
-    // In production, this would be an API call to your Neon database
-    const data = localStorage.getItem('qa-submissions');
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error('Error fetching submissions:', error);
+    console.log('Fetching submissions from Neon database via backend...');
+    
+    const response = await axios.get(`${API_BASE_URL}/submissions`, {
+      timeout: 30000, // 30 second timeout
+    });
+    
+    console.log('✅ Successfully fetched submissions from Neon database');
+    return response.data || [];
+  } catch (error: any) {
+    console.error('❌ Error fetching submissions from database:', error);
+    
+    // Return empty array on error to prevent UI crashes
     return [];
   }
 };
 
 export const deleteSubmission = async (id: string) => {
   try {
-    // In production, this would be an API call to your Neon database
-    const existingData = localStorage.getItem('qa-submissions');
-    if (!existingData) return { success: false, error: 'No data found' };
+    console.log(`Deleting submission ${id} from Neon database via backend...`);
     
-    const submissions = JSON.parse(existingData);
-    const filteredSubmissions = submissions.filter((sub: any) => sub.id !== id);
+    const response = await axios.delete(`${API_BASE_URL}/submissions/${id}`, {
+      timeout: 30000, // 30 second timeout
+    });
     
-    localStorage.setItem('qa-submissions', JSON.stringify(filteredSubmissions));
-    return { success: true };
-  } catch (error) {
-    console.error('Error deleting submission:', error);
-    return { success: false, error };
+    if (response.data.success) {
+      console.log('✅ Submission deleted successfully from Neon database');
+      return { success: true, message: response.data.message };
+    } else {
+      throw new Error(response.data.error || 'Failed to delete submission');
+    }
+  } catch (error: any) {
+    console.error('❌ Error deleting submission from database:', error);
+    
+    const errorMessage = error.response?.data?.error || 
+                        error.message || 
+                        'Failed to delete submission from database';
+    
+    return { 
+      success: false, 
+      error: errorMessage 
+    };
   }
 };
 
-// SQL Schema for Neon PostgreSQL (for reference)
+// Test backend connectivity
+export const testBackendConnection = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL.replace('/api', '')}/health`, {
+      timeout: 10000, // 10 second timeout
+    });
+    
+    if (response.status === 200) {
+      console.log('✅ Backend connection successful');
+      return { success: true, data: response.data };
+    } else {
+      throw new Error('Backend health check failed');
+    }
+  } catch (error: any) {
+    console.error('❌ Backend connection failed:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Failed to connect to backend' 
+    };
+  }
+};
+
+// SQL Schema for Neon PostgreSQL (for reference - implemented in backend)
 export const SQL_SCHEMA = `
 -- Testers table
 CREATE TABLE IF NOT EXISTS testers (
@@ -127,8 +189,9 @@ CREATE INDEX IF NOT EXISTS idx_bug_reports_priority ON bug_reports(priority);
 CREATE INDEX IF NOT EXISTS idx_screenshots_section_id ON screenshots(section_id);
 `;
 
-// Environment variables for Neon connection (example)
+// Environment variables for Neon connection (handled by backend)
 export const NEON_CONFIG = {
-  // Replace with your Neon database connection string
-  connectionString: process.env.REACT_APP_NEON_DATABASE_URL || 'postgresql://neondb_owner:npg_3fJrnNHYQph7@ep-royal-unit-aezr96es-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+  // Backend handles the database connection
+  backendUrl: API_BASE_URL,
+  frontendUrl: process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000'
 };
