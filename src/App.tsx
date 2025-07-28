@@ -34,7 +34,7 @@ function App() {
               className="text-white/80 text-sm"
             >
               Powered by{' '}
-              <span className="font-bold gradient-text">Millihub</span>
+              <span className="font-bold gradient-text">MILLIHUB</span>
             </motion.p>
           </div>
         </footer>
