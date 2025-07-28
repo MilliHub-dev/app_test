@@ -34,12 +34,21 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load data from localStorage
-    const storedData = localStorage.getItem('qa-submissions');
-    if (storedData) {
-      setSubmissions(JSON.parse(storedData));
-    }
-    setLoading(false);
+    // Load data from production Neon database
+    const loadSubmissions = async () => {
+      try {
+        const { getSubmissions } = await import('../utils/database');
+        const data = await getSubmissions();
+        setSubmissions(data);
+      } catch (error) {
+        console.error('Error loading submissions:', error);
+        setSubmissions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSubmissions();
   }, []);
 
   // Calculate metrics

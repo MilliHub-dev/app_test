@@ -164,20 +164,27 @@ const TestForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    // Here you would typically send the data to a backend/database
+  const handleSubmit = async () => {
+    // Import the saveSubmission function
+    const { saveSubmission } = await import('../utils/database');
+    
     console.log('Form submitted:', formData);
     
-    // Store in localStorage for demo purposes
-    const existingData = localStorage.getItem('qa-submissions');
-    const submissions = existingData ? JSON.parse(existingData) : [];
-    submissions.push({
-      ...formData,
-      submittedAt: new Date().toISOString()
-    });
-    localStorage.setItem('qa-submissions', JSON.stringify(submissions));
-    
-    alert('Form submitted successfully!');
+    try {
+      // Save to production Neon database
+      const result = await saveSubmission(formData);
+      
+      if (result.success) {
+        alert('Form submitted successfully to database!');
+        console.log('Submission ID:', result.id);
+      } else {
+        alert(`Failed to submit form: ${result.error}`);
+        console.error('Submission failed:', result.error);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred while submitting the form. Please try again.');
+    }
     
     // Reset form
     setCurrentStep(0);
