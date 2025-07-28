@@ -101,7 +101,7 @@ const TestGuide: React.FC = () => {
         className="text-center"
       >
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Sabi-Ride QA Testing
+          Sabi Ride QA Testing
         </h1>
         <p className="text-xl text-white/80 mb-8">Quick Guide</p>
       </motion.div>

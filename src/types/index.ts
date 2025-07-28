@@ -97,7 +97,7 @@ export const crossAppFeatures = [
   'Ride Matching (Shared)',
   'Ride Matching (Dispatch)',
   'Fare Splitting Logic',
-  'Wallet Integration (Flutterwave)',
+  'Wallet Integration (paystack)',
   'Referral Points Allocation',
   'Sabi Cash Conversion',
   'Admin Dashboard Monitoring'
