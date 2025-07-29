@@ -71,36 +71,36 @@ const FormSection: React.FC<FormSectionProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-effect rounded-2xl p-8 space-y-8"
+      className="glass-effect rounded-2xl p-4 md:p-8 space-y-6 md:space-y-8"
     >
-      <h2 className="text-2xl font-bold text-white mb-6">{title}</h2>
+      <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">{title}</h2>
 
       {/* Features Testing Grid */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white mb-4">Feature Testing</h3>
-        <div className="space-y-3">
+      <div className="space-y-3 md:space-y-4">
+        <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Feature Testing</h3>
+        <div className="space-y-2 md:space-y-3">
           {features.map((feature, index) => (
             <motion.div
               key={feature}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center p-4 bg-white/5 rounded-lg"
+              className="grid grid-cols-1 lg:grid-cols-4 gap-3 md:gap-4 items-start lg:items-center p-3 md:p-4 bg-white/5 rounded-lg"
             >
-              <div className="md:col-span-1">
-                <span className="text-white font-medium">{feature}</span>
+              <div className="lg:col-span-1">
+                <span className="text-white font-medium text-sm md:text-base">{feature}</span>
               </div>
-              <div className="md:col-span-3 flex flex-wrap gap-2">
+              <div className="lg:col-span-3 flex flex-wrap gap-2">
                 {(['Pass', 'Fail', 'Not Tested'] as const).map((status) => (
                   <button
                     key={status}
                     onClick={() => onResultChange(feature, status)}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-all duration-300 ${
+                    className={`flex items-center space-x-1 md:space-x-2 px-3 md:px-4 py-1 md:py-2 rounded-lg border transition-all duration-300 text-xs md:text-sm ${
                       getStatusColor(status, results[feature]?.status === status)
                     }`}
                   >
-                    {getStatusIcon(status)}
-                    <span className="text-sm font-medium">{status}</span>
+                    {React.cloneElement(getStatusIcon(status), { className: 'w-4 h-4 md:w-5 md:h-5' })}
+                    <span className="font-medium">{status}</span>
                   </button>
                 ))}
               </div>

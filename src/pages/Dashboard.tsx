@@ -181,17 +181,17 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 md:mb-4">
           QA Testing Dashboard
         </h1>
-        <p className="text-xl text-white/80">Analytics and Insights</p>
+        <p className="text-lg md:text-xl text-white/80">Analytics and Insights</p>
       </motion.div>
 
       {/* Metrics Cards */}
@@ -199,57 +199,57 @@ const Dashboard: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
       >
-        <div className="glass-effect rounded-xl p-6 card-hover">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-              <Users className="w-6 h-6 text-white" />
+        <div className="glass-effect rounded-xl p-4 md:p-6 card-hover">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <TrendingUp className="w-5 h-5 text-green-400" />
+            <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-white">{metrics.totalSubmissions}</div>
-            <div className="text-white/70">Total Submissions</div>
+            <div className="text-xl md:text-2xl font-bold text-white">{metrics.totalSubmissions}</div>
+            <div className="text-white/70 text-sm md:text-base">Total Submissions</div>
           </div>
         </div>
 
-        <div className="glass-effect rounded-xl p-6 card-hover">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-white" />
+        <div className="glass-effect rounded-xl p-4 md:p-6 card-hover">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-green-500 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <TrendingUp className="w-5 h-5 text-green-400" />
+            <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-white">{Math.round(metrics.passRate)}%</div>
-            <div className="text-white/70">Pass Rate</div>
+            <div className="text-xl md:text-2xl font-bold text-white">{Math.round(metrics.passRate)}%</div>
+            <div className="text-white/70 text-sm md:text-base">Pass Rate</div>
           </div>
         </div>
 
-        <div className="glass-effect rounded-xl p-6 card-hover">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
-              <Eye className="w-6 h-6 text-white" />
+        <div className="glass-effect rounded-xl p-4 md:p-6 card-hover">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+              <Eye className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <TrendingUp className="w-5 h-5 text-green-400" />
+            <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-white">{metrics.avgUIUX}/100</div>
-            <div className="text-white/70">Avg UI/UX Score</div>
+            <div className="text-xl md:text-2xl font-bold text-white">{metrics.avgUIUX}/100</div>
+            <div className="text-white/70 text-sm md:text-base">Avg UI/UX Score</div>
           </div>
         </div>
 
-        <div className="glass-effect rounded-xl p-6 card-hover">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
-              <Bug className="w-6 h-6 text-white" />
+        <div className="glass-effect rounded-xl p-4 md:p-6 card-hover">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-red-500 rounded-lg flex items-center justify-center">
+              <Bug className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <AlertTriangle className="w-5 h-5 text-red-400" />
+            <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 text-red-400" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-white">{metrics.totalBugs}</div>
-            <div className="text-white/70">Total Bugs</div>
+            <div className="text-xl md:text-2xl font-bold text-white">{metrics.totalBugs}</div>
+            <div className="text-white/70 text-sm md:text-base">Total Bugs</div>
           </div>
         </div>
       </motion.div>
@@ -261,21 +261,22 @@ const Dashboard: React.FC = () => {
         transition={{ delay: 0.4 }}
         className="glass-effect rounded-xl p-2"
       >
-        <div className="flex space-x-1 overflow-x-auto">
+        <div className="flex space-x-1 overflow-x-auto pb-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setSelectedTab(tab.id)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
+                className={`flex items-center space-x-2 px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all whitespace-nowrap text-sm md:text-base ${
                   selectedTab === tab.id
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                <span>{tab.name}</span>
+                <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="hidden sm:inline">{tab.name}</span>
+                <span className="sm:hidden">{tab.name.split(' ')[0]}</span>
               </button>
             );
           })}
