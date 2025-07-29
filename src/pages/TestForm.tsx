@@ -242,14 +242,15 @@ const TestForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-4 md:space-y-8 px-4 sm:px-6 lg:px-8">
       {/* Stepper */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-effect rounded-2xl p-6"
+        className="glass-effect rounded-2xl p-3 md:p-6"
       >
-        <div className="flex items-center justify-between">
+        {/* Desktop Stepper */}
+        <div className="hidden md:flex items-center justify-between">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isActive = index === currentStep;
@@ -283,6 +284,36 @@ const TestForm: React.FC = () => {
             );
           })}
         </div>
+
+        {/* Mobile Stepper */}
+        <div className="md:hidden">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-blue-500 text-white`}
+              >
+                {React.createElement(steps[currentStep].icon, { className: 'w-5 h-5' })}
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">
+                  {steps[currentStep].title}
+                </div>
+                <div className="text-xs text-white/50">
+                  Step {currentStep + 1} of {steps.length}
+                </div>
+              </div>
+            </div>
+            <div className="text-sm text-white/70">
+              {Math.round(((currentStep + 1) / steps.length) * 100)}%
+            </div>
+          </div>
+          <div className="w-full bg-white/20 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            />
+          </div>
+        </div>
       </motion.div>
 
       {/* Form Content */}
@@ -296,12 +327,12 @@ const TestForm: React.FC = () => {
         >
           {/* Tester Information */}
           {currentStep === 0 && (
-            <div className="glass-effect rounded-2xl p-8 space-y-6">
-              <h2 className="text-2xl font-bold text-white mb-6">Tester Information</h2>
+            <div className="glass-effect rounded-2xl p-4 md:p-8 space-y-4 md:space-y-6">
+              <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">Tester Information</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <label className="block text-white font-medium mb-2">Name *</label>
+                  <label className="block text-white font-medium mb-2 text-sm md:text-base">Name *</label>
                   <input
                     type="text"
                     value={formData.testerInfo.name}
@@ -309,31 +340,31 @@ const TestForm: React.FC = () => {
                       ...prev,
                       testerInfo: { ...prev.testerInfo, name: e.target.value }
                     }))}
-                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 form-input focus:outline-none"
+                    className="w-full px-3 py-2 md:p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 form-input focus:outline-none focus:border-blue-400 text-sm md:text-base"
                     placeholder="Enter your full name"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-white font-medium mb-2">Role *</label>
+                  <label className="block text-white font-medium mb-2 text-sm md:text-base">Role *</label>
                   <select
                     value={formData.testerInfo.role}
                     onChange={(e) => setFormData(prev => ({
                       ...prev,
                       testerInfo: { ...prev.testerInfo, role: e.target.value as any }
                     }))}
-                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-black form-input focus:outline-none"
+                    className="w-full px-3 py-2 md:p-3 bg-white/10 border border-white/20 rounded-lg text-white form-input focus:outline-none focus:border-blue-400 text-sm md:text-base"
                   >
-                    <option value="QA">QA</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Driver Tester">Driver Tester</option>
-                    <option value="Passenger Tester">Passenger Tester</option>
+                    <option value="QA" className="text-black">QA</option>
+                    <option value="Developer" className="text-black">Developer</option>
+                    <option value="Driver Tester" className="text-black">Driver Tester</option>
+                    <option value="Passenger Tester" className="text-black">Passenger Tester</option>
                   </select>
                 </div>
                 
-                <div>
-                  <label className="block text-white font-medium mb-2">Date</label>
+                <div className="md:col-span-2">
+                  <label className="block text-white font-medium mb-2 text-sm md:text-base">Date</label>
                   <input
                     type="date"
                     value={formData.testerInfo.date}
@@ -341,7 +372,7 @@ const TestForm: React.FC = () => {
                       ...prev,
                       testerInfo: { ...prev.testerInfo, date: e.target.value }
                     }))}
-                    className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white form-input focus:outline-none"
+                    className="w-full px-3 py-2 md:p-3 bg-white/10 border border-white/20 rounded-lg text-white form-input focus:outline-none focus:border-blue-400 text-sm md:text-base"
                   />
                 </div>
               </div>
@@ -533,44 +564,45 @@ const TestForm: React.FC = () => {
       </AnimatePresence>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="flex items-center space-x-2 px-6 py-3 bg-white/10 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors"
+          className="flex items-center justify-center space-x-2 px-4 md:px-6 py-2 md:py-3 bg-white/10 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/20 transition-colors w-full md:w-auto text-sm md:text-base"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
           <span>Previous</span>
         </button>
 
-        <div className="flex space-x-4">
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
           <button
             onClick={() => {
               // Save progress to localStorage
               localStorage.setItem('qa-form-progress', JSON.stringify({ currentStep, formData }));
               alert('Progress saved!');
             }}
-            className="flex items-center space-x-2 px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition-colors"
+            className="flex items-center justify-center space-x-2 px-4 md:px-6 py-2 md:py-3 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition-colors w-full md:w-auto text-sm md:text-base"
           >
-            <Save className="w-5 h-5" />
-            <span>Save Progress</span>
+            <Save className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="hidden sm:inline">Save Progress</span>
+            <span className="sm:hidden">Save</span>
           </button>
 
           {currentStep === steps.length - 1 ? (
             <button
               onClick={handleSubmit}
-              className="flex items-center space-x-2 btn-primary text-white font-semibold px-6 py-3 rounded-lg"
+              className="flex items-center justify-center space-x-2 btn-primary text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-lg w-full md:w-auto text-sm md:text-base"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4 md:w-5 md:h-5" />
               <span>Submit Form</span>
             </button>
           ) : (
             <button
               onClick={nextStep}
-              className="flex items-center space-x-2 btn-primary text-white font-semibold px-6 py-3 rounded-lg"
+              className="flex items-center justify-center space-x-2 btn-primary text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-lg w-full md:w-auto text-sm md:text-base"
             >
               <span>Next</span>
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           )}
         </div>
